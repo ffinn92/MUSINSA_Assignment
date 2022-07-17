@@ -36,7 +36,7 @@ java -jar musinsa-0.0.1-SNAPSHOT.jar
 > PATCH /api/categories/{id}?name={name}
 
 카테고리 삭제
-> DELETE /api/categories/{id}?name={name}
+> DELETE /api/categories/{id}
 >> 상위 카테고리 삭제를 해도 하위 카테고리 데이터는 남아있을 수 있도록 제약조건을 수정하게끔 schema.sql을 추가하였습니다.</br>
 >> ALTER TABLE category DROP CONSTRAINT FKS2RIDE9GVILXY2TCUV7WITNXC;
 
