@@ -1,9 +1,6 @@
 package com.example.musinsa_assignment.controller;
 
-import com.example.musinsa_assignment.dto.CategoryCreateRequest;
-import com.example.musinsa_assignment.dto.CategoryCreateResponse;
-import com.example.musinsa_assignment.dto.CategoryDtoList;
-import com.example.musinsa_assignment.dto.CategoryEditResponse;
+import com.example.musinsa_assignment.dto.*;
 import com.example.musinsa_assignment.service.CategoryService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -47,6 +44,14 @@ public class CategoryController {
     @PatchMapping("/{id}")
     public CategoryEditResponse editCategory(@PathVariable Long id, @RequestParam(name = "name") String name) {
         return categoryService.editCategoryById(id, name);
+    }
+
+    /**
+     * 카테고리 삭제
+     */
+    @DeleteMapping("/{id}")
+    public CategoryDeleteResponse deleteCategory(@PathVariable Long id) {
+        return categoryService.deleteCatgoryById(id);
     }
 }
 

@@ -63,6 +63,14 @@ public class CategoryService {
         return CategoryEditResponse.from(findCategory);
     }
 
+    @Transactional
+    public CategoryDeleteResponse deleteCatgoryById(Long id) {
+        vaildateCategoryExistsById(id);
+        Category foundCategory = categoryRepository.findById(id).orElseThrow();
+        categoryRepository.delete(foundCategory);
+        return CategoryDeleteResponse.from(foundCategory);
+    }
+
     private void vaildateCategroiesExists(List<Category> findCategories) {
         if(findCategories.isEmpty()){
             throw new CategoryNotFoundException();
