@@ -1,10 +1,7 @@
 package com.example.musinsa_assignment.service;
 
 import com.example.musinsa_assignment.domain.Category;
-import com.example.musinsa_assignment.dto.CategoryCreateRequest;
-import com.example.musinsa_assignment.dto.CategoryCreateResponse;
-import com.example.musinsa_assignment.dto.CategoryDtoList;
-import com.example.musinsa_assignment.dto.CategoryFindResponse;
+import com.example.musinsa_assignment.dto.*;
 import com.example.musinsa_assignment.exception.CategoryAlreadyExistException;
 import com.example.musinsa_assignment.exception.CategoryNotFoundException;
 import com.example.musinsa_assignment.repository.CategoryRepository;
@@ -56,6 +53,14 @@ public class CategoryService {
         Category parentCategory = categoryRepository.findById(request.getParentId()).orElseThrow();
         Category saved = categoryRepository.save((new Category(request.getName(), parentCategory)));
         return CategoryCreateResponse.from(saved);
+    }
+
+    @Transactional
+    public CategoryEditResponse editCategoryById(Long id, String name) {
+        vaildateCategoryExistsById(id);
+        Category findCategory = categoryRepository.findById(id).orElseThrow();
+        findCategory.editName(name);
+        return CategoryEditResponse.from(findCategory);
     }
 
     private void vaildateCategroiesExists(List<Category> findCategories) {

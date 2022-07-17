@@ -39,5 +39,13 @@ public class CategoryController {
     public CategoryCreateResponse createCategory(@RequestBody CategoryCreateRequest request) {
         return categoryService.createCategory(request);
     }
+
+    /**
+     * 카테고리 수정
+     */
+    @PatchMapping("/{id}")
+    public CategoryEditResponse editCategory(@PathVariable Long id, @RequestParam(name = "name") String name) {
+        return categoryService.editCategoryById(id, name);
+    }
 }
 
