@@ -3,6 +3,7 @@ package com.example.musinsa_assignment.controller;
 import com.example.musinsa_assignment.dto.CategoryCreateRequest;
 import com.example.musinsa_assignment.dto.CategoryCreateResponse;
 import com.example.musinsa_assignment.dto.CategoryDtoList;
+import com.example.musinsa_assignment.dto.CategoryEditResponse;
 import com.example.musinsa_assignment.service.CategoryService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
