@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -29,8 +30,27 @@ public class CategoryService {
         return new CategoryDtoList(categoryFindResponses);
     }
 
+    @Transactional(readOnly = true)
+    public CategoryDtoList findChildCategories(Long parentId) {
+        vaildateCategoryExistsById(parentId);
+        List<Category> childCategories = categoryRepository.findByParentCategoryId(parentId);
+        vaildateCategroiesExists(childCategories);
+        List<CategoryFindResponse> categoryFindResponses = childCategories.stream()
+                .map(m -> new CategoryFindResponse(m.getId(), m.getName()))
+                .collect(Collectors.toList());
+
+        return new CategoryDtoList(categoryFindResponses);
+    }
+
     private void vaildateCategroiesExists(List<Category> findCategories) {
         if(findCategories.isEmpty()){
+            throw new CategoryNotFoundException();
+        }
+    }
+
+    private void vaildateCategoryExistsById(Long id) {
+        Optional<Category> findCategory = categoryRepository.findById(id);
+        if(!findCategory.isPresent()) {
             throw new CategoryNotFoundException();
         }
     }

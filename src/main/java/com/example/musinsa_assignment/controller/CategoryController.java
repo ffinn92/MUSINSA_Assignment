@@ -4,6 +4,7 @@ import com.example.musinsa_assignment.dto.CategoryDtoList;
 import com.example.musinsa_assignment.service.CategoryService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -22,5 +23,12 @@ public class CategoryController {
         return categoryService.findCategories();
     }
 
+    /**
+     * 하위 카테고리 조회
+     */
+    @GetMapping("/{id}")
+    public CategoryDtoList findChildCategories(@PathVariable Long id) {
+        return categoryService.findChildCategories(id);
+    }
 }
 
