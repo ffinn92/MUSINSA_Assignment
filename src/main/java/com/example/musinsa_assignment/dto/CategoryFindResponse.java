@@ -1,6 +1,6 @@
 package com.example.musinsa_assignment.dto;
 
-import com.example.musin.domain.Category;
+import com.example.musinsa_assignment.domain.Category;
 import lombok.Getter;
 
 @Getter
