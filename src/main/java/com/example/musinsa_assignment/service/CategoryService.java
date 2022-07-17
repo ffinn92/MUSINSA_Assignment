@@ -1,8 +1,11 @@
 package com.example.musinsa_assignment.service;
 
 import com.example.musinsa_assignment.domain.Category;
+import com.example.musinsa_assignment.dto.CategoryCreateRequest;
+import com.example.musinsa_assignment.dto.CategoryCreateResponse;
 import com.example.musinsa_assignment.dto.CategoryDtoList;
 import com.example.musinsa_assignment.dto.CategoryFindResponse;
+import com.example.musinsa_assignment.exception.CategoryAlreadyExistException;
 import com.example.musinsa_assignment.exception.CategoryNotFoundException;
 import com.example.musinsa_assignment.repository.CategoryRepository;
 import lombok.RequiredArgsConstructor;
@@ -42,6 +45,19 @@ public class CategoryService {
         return new CategoryDtoList(categoryFindResponses);
     }
 
+    @Transactional
+    public CategoryCreateResponse createCategory(CategoryCreateRequest request) {
+        vaildateCategoryExistsByName(request.getName());
+        if (request.getParentId() == null) { //상위 카테고리 등록
+            Category saved = categoryRepository.save((new Category(request.getName())));
+            return CategoryCreateResponse.from(saved);
+        }
+        //하위 카테고리 등록
+        Category parentCategory = categoryRepository.findById(request.getParentId()).orElseThrow();
+        Category saved = categoryRepository.save((new Category(request.getName(), parentCategory)));
+        return CategoryCreateResponse.from(saved);
+    }
+
     private void vaildateCategroiesExists(List<Category> findCategories) {
         if(findCategories.isEmpty()){
             throw new CategoryNotFoundException();
@@ -52,6 +68,13 @@ public class CategoryService {
         Optional<Category> findCategory = categoryRepository.findById(id);
         if(!findCategory.isPresent()) {
             throw new CategoryNotFoundException();
+        }
+    }
+
+    private void vaildateCategoryExistsByName(String name) {
+        Optional<Category> findCategory = categoryRepository.findByName(name);
+        if (findCategory.isPresent()) {
+            throw new CategoryAlreadyExistException();
         }
     }
 

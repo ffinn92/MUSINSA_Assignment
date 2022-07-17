@@ -1,12 +1,12 @@
 package com.example.musinsa_assignment.controller;
 
+import com.example.musinsa_assignment.dto.CategoryCreateRequest;
+import com.example.musinsa_assignment.dto.CategoryCreateResponse;
 import com.example.musinsa_assignment.dto.CategoryDtoList;
 import com.example.musinsa_assignment.service.CategoryService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequiredArgsConstructor
@@ -29,6 +29,15 @@ public class CategoryController {
     @GetMapping("/{id}")
     public CategoryDtoList findChildCategories(@PathVariable Long id) {
         return categoryService.findChildCategories(id);
+    }
+
+    /**
+     * 카테고리 등록
+     */
+    @PostMapping
+    @ResponseStatus(HttpStatus.CREATED)
+    public CategoryCreateResponse createCategory(@RequestBody CategoryCreateRequest request) {
+        return categoryService.createCategory(request);
     }
 }
 
