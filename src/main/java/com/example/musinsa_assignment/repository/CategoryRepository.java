@@ -1,5 +1,8 @@
 package com.example.musinsa_assignment.repository;
 
-public interface CategoryRepository {
+import com.example.musinsa_assignment.domain.Category;
+import org.springframework.data.jpa.repository.JpaRepository;
+
+public interface CategoryRepository extends JpaRepository<Category, Long> {
 
 }
